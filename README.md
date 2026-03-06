@@ -86,26 +86,7 @@ SysSubtitle captures system audio (via Broadcast Extension) or microphone input 
 
 ---
 
-## 架构 / Architecture
 
-```
-┌─────────────────────────────────────────────────┐
-│  System Audio / Microphone                       │
-│       ↓                                          │
-│  [Broadcast Extension / MicRecorder]             │
-│       ↓ PCM chunks → App Group                   │
-│  [DeepgramStreamRecognizer] (Track A)            │
-│    ├── WebSocket → Deepgram Nova-3               │
-│    └── diarize → speaker identification          │
-│       ↓                                          │
-│  [SubtitleViewModel]                             │
-│    ├── T0-T3 Translation Pipeline                │
-│    ├── Track B Speaker Calibration               │
-│    └── PiP Sync                                  │
-│       ↓                                          │
-│  [ContentView] + [PiPManager]                    │
-└─────────────────────────────────────────────────┘
-```
 
 ---
 
@@ -142,25 +123,6 @@ SysSubtitle captures system audio (via Broadcast Extension) or microphone input 
 
 ## 开发 / Development
 
-### 项目结构
-
-```
-SysSubtitle/
-├── SysSubtitle/                # 主 App (iOS)
-│   ├── SubtitleViewModel.swift # 核心 VM (~2300 行)
-│   ├── ContentView.swift       # 主界面 + 设置 (~3000 行)
-│   ├── DeepgramStreamRecognizer.swift  # WebSocket 流式识别
-│   ├── TrackBManager.swift     # REST 说话人校准
-│   ├── PiPManager.swift        # 画中画渲染
-│   ├── LLMCorrectionProvider.swift  # LLM 校准
-│   ├── MicRecorder.swift       # 麦克风模式音频
-│   └── ...
-├── SysSubtitleBroadcast/       # Broadcast Extension
-│   ├── SampleHandler.swift     # 系统音频捕获
-│   └── AudioChunkManager.swift # chunk 文件管理
-├── PRIVACY.md
-├── USER_GUIDE.md
-└── README.md
 ```
 
 ### 构建要求
